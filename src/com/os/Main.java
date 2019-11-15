@@ -5,10 +5,7 @@ import com.os.bean.Page;
 import com.os.bean.PageFrame;
 import com.os.bean.PageTab;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -27,17 +24,18 @@ public class Main {
     static int[] arr = new int[8192];
 
     public static void main(String args[]) throws IOException {
-        String path = "D:\\学习\\操作系统\\课程设计/进程.txt";
+        String path = "res/进程.txt";
         List<MyProcess> proList = readFromFile(path);
         outputProcess(proList);
         sch(proList);
 
     }
 
-    // 从文件中读取
+    // 根据文件名读取文件
     public static List<MyProcess> readFromFile(String path) throws IOException {
         List<String> strList = new ArrayList<>();
-        FileReader reader = new FileReader(path);
+        File file = new File( path );
+        FileReader reader = new FileReader(file);
         BufferedReader br = new BufferedReader(reader);
         String line = br.readLine();
         // 读取第一行，第一行没用
