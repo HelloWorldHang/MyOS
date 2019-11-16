@@ -1,15 +1,14 @@
 package com.os;
 
 import com.os.bean.MyProcess;
-import com.os.bean.Page;
 import com.os.bean.PageFrame;
 import com.os.bean.PageTab;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
+
+import static com.os.utils.ArrayTools.oneArrIntoTwoArr;
+import static com.os.utils.Output.bitmapImageOutput;
 
 /**
  * @description: *
@@ -26,18 +25,19 @@ public class Main {
     // 位示图,初始全为0
     static int[] arr = new int[8192];
 
-    public static void main(String args[]) throws IOException {
-        String path = "D:\\学习\\操作系统\\课程设计/进程.txt";
+    public static void main(String args[]) throws Exception {
+        String path = "res/进程.txt";
         List<MyProcess> proList = readFromFile(path);
         outputProcess(proList);
         sch(proList);
 
     }
 
-    // 从文件中读取
+    // 根据文件名读取文件
     public static List<MyProcess> readFromFile(String path) throws IOException {
         List<String> strList = new ArrayList<>();
-        FileReader reader = new FileReader(path);
+        File file = new File( path );
+        FileReader reader = new FileReader(file);
         BufferedReader br = new BufferedReader(reader);
         String line = br.readLine();
         // 读取第一行，第一行没用
@@ -107,7 +107,7 @@ public class Main {
      * 进程调度
      * @param proList
      */
-    public static void sch(List<MyProcess> proList){
+    public static void sch(List<MyProcess> proList) throws Exception {
 
         // 一开始就分配两个页框给OS内核
         for (int i = 0; i < 2; i++){
@@ -168,7 +168,7 @@ public class Main {
      * 传入进程，分配内存
      * @param process
      */
-    private static void allocateMemory(MyProcess process) {
+    private static void allocateMemory(MyProcess process) throws Exception {
         process.setFlag(true);
         // 计算该进程需要的页框数
         int pageFrameCount = (int)Math.ceil((double) process.getRequiredMemorySize() / pageSize);
@@ -190,7 +190,7 @@ public class Main {
         outPutPageTable(process);
     }
 
-    private static void unloadMemory(MyProcess process){
+    private static void unloadMemory(MyProcess process) throws Exception {
         for (PageTab pageTab: process.getPageTabList()){
             arr[pageTab.getPageFrameId()] = 0;
         }
@@ -211,13 +211,9 @@ public class Main {
      * 输出位示图
      * @param arr
      */
-    public static void outPutArr(int[] arr){
+    public static void outPutArr(int[] arr) throws Exception {
         System.out.println("当前位示图");
-        for (int i = 0; i < arr.length; i++){
-            System.out.print(arr[i] + "\t");
-            if ((i+1) % 24 == 0)
-                System.out.println();
-        }
+        bitmapImageOutput(oneArrIntoTwoArr(arr, 10));
     }
 
     /**

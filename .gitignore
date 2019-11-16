@@ -1,0 +1,7 @@
+# Created by .ignore support plugin (hsz.mobi)
+*.log
+*.temp
+/vendor
+/out
+/.idea
+/MyOS.iml
