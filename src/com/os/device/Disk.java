@@ -1,5 +1,8 @@
 package com.os.device;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @description: *
  * @author: 司云航
@@ -8,85 +11,27 @@ package com.os.device;
 public class Disk {
     // 磁盘总块数，扇区大小，引导块位置，超级块位置，超级块大小，交换区大小，inode区位置，inode区大小，磁盘文件区位置、大小
     // 位示图位置、大小
-    static final int surfaceCount = 256; // 盘面数
-    static final int trackCount = 12800; // 磁道数
-    static final int physicalShanQuCount =64 ; // 物理扇区数
-    static final long shanQuCount = 209715200;
-    static final int shanQuSize = 2; // 单位kb
-    static final int inodeSize = 256; // 单位字节
-    static final int superBlockSize = 2;//单位kb
-    static final int inodeFlagSize = 0; // inode位示图大小
-    static final int shanQuFlagSize  = 25; // 扇区位示图大小，MB
-    static final int inodeStartSize = 2; // inode表开始扇区号
-    static final int inodeCount = 50;
-    static final int fileStartAddr = 0; // 开始存文件的扇区号
+     static final int surfaceCount = 256; // 盘面数
+     static final int trackCount = 12800; // 每个盘面磁道数
+     static final int physicalShanQuCount =64 ; // 物理扇区数
+     static final long shanQuCount = 209715200;
+     private static List<ShanQu> shanQuList = new ArrayList<>(209715199);
+     static final int shanQuSize = 2; // 单位kb
+     static final int inodeSize = 256; // 单位字节
+     static final int superBlockSize = 2;//单位kb
+     static final int inodeFlagSize = 1; // inode位示图大小,占用1个扇区
+     static final int fileFlagSize  = 12799; // 文件位示图大小,单位扇区个数
+     static final int inodeCount = 400; // inode数量
+    static final int inodeStartAddr = 12801; // 第12801个扇区开始
+     static final Swap swap = new Swap();
+     static final int fileStartAddr = 29235; // 开始存文件的扇区号
+    static final long fileShanQuCount = shanQuCount - fileStartAddr;
 
-    public static int getSurfaceCount() {
-        return surfaceCount;
+    public static List<ShanQu> getShanQuList() {
+        return shanQuList;
     }
 
-    public static int getTrackCount() {
-        return trackCount;
+    public static void setShanQuList(List<ShanQu> shanQuList) {
+        Disk.shanQuList = shanQuList;
     }
-
-    public static int getPhysicalShanQuCount() {
-        return physicalShanQuCount;
-    }
-
-    public static long getShanQuCount() {
-        return shanQuCount;
-    }
-
-    public static int getShanQuSize() {
-        return shanQuSize;
-    }
-
-    public static int getInodeSize() {
-        return inodeSize;
-    }
-
-    public static int getSuperBlockSize() {
-        return superBlockSize;
-    }
-
-    public static int getInodeFlagSize() {
-        return inodeFlagSize;
-    }
-
-    public static int getShanQuFlagSize() {
-        return shanQuFlagSize;
-    }
-
-    public static int getInodeStartSize() {
-        return inodeStartSize;
-    }
-
-    public static int getInodeCount() {
-        return inodeCount;
-    }
-
-    public static int getFileStartAddr() {
-        return fileStartAddr;
-    }
-
-    // 格式化方法
-    public static void format(){
-        // 位示图置0
-        System.out.println("磁盘已格式化");
-        System.out.println("磁盘大小为" + "共" +shanQuCount + "个扇区");
-        System.out.println("超级块大小为");
-        System.out.println("inode位示图大小为");
-        System.out.println("扇区位示图大小为");
-        System.out.println("交换区大小为");
-        System.out.println("文件存储区大小为");
-        System.out.println("inode区大小为");
-    }
-    public static PhysicalAddr transtAddr(long logicId){
-        PhysicalAddr physicalAddr = new PhysicalAddr();
-        physicalAddr.setSurfaceId((int) (logicId/trackCount*physicalShanQuCount));
-        physicalAddr.setTrackId((int) ((logicId%trackCount*physicalShanQuCount)/physicalShanQuCount));
-        physicalAddr.setPhysicalShanQuId((int) ((logicId%trackCount*physicalShanQuCount)%physicalShanQuCount)-1);
-        return physicalAddr;
-    }
-
 }
