@@ -1,14 +1,16 @@
 package com.os;
 
 import com.os.bean.MyProcess;
-import com.os.bean.PageFrame;
 import com.os.bean.PageTab;
 
-import java.io.*;
-import java.util.*;
-
-import static com.os.utils.ArrayTools.oneArrIntoTwoArr;
-import static com.os.utils.Output.bitmapImageOutput;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * @description: *
@@ -17,10 +19,7 @@ import static com.os.utils.Output.bitmapImageOutput;
  */
 public class Main {
     // 页面大小
-    static float pageSize = 2;
-
-    // 页框List
-    static ArrayList<PageFrame> pageFrameList = new ArrayList<>();
+    static float pageSize = 2; // KB
 
     // 位示图,初始全为0
     static int[] arr = new int[8192];
@@ -115,7 +114,7 @@ public class Main {
         }
         outPutArr(arr);
         int current = 0; // 当前时间从0开始
-        System.out.println("时间\t" + "进程名\t" + "进程状态\t" + "优先级\t" + "剩余时间\t");
+
         while (proList.size() != 0){
             sortProcessByPriority(proList);
             sortProcessByTime(proList);
@@ -134,6 +133,7 @@ public class Main {
                 // 更改进程状态为运行态
                 process.setStatus(2);
 
+                System.out.println("时间\t" + "进程名\t" + "进程状态\t" + "优先级\t" + "剩余时间\t");
                 System.out.println(current+"\t" + process.getName()+"\t\t" + process.getStatus()+"\t\t" + process.getPriority()+"\t\t" + process.getTimes());
                 // 降低优先级
                 process.setPriority(process.getPriority()+2);
@@ -189,7 +189,7 @@ public class Main {
         outPutArr(arr);
         outPutPageTable(process);
     }
-
+    // 移出内存
     private static void unloadMemory(MyProcess process) throws Exception {
         for (PageTab pageTab: process.getPageTabList()){
             arr[pageTab.getPageFrameId()] = 0;
@@ -213,7 +213,14 @@ public class Main {
      */
     public static void outPutArr(int[] arr) throws Exception {
         System.out.println("当前位示图");
-        bitmapImageOutput(oneArrIntoTwoArr(arr, 10));
+        //bitmapImageOutput(oneArrIntoTwoArr(arr, 10));
+        for (int i = 0; i<arr.length; i++){
+            System.out.print(arr[i] + " ");
+            if ((i + 1)%24==0){
+                System.out.println();
+            }
+        }
+        System.out.println();
     }
 
     /**
