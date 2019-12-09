@@ -1,4 +1,4 @@
-package com.os.bean;
+package com.os.memory;
 
 public class LogicAdd {
 	private  int id;

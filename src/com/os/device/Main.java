@@ -1,5 +1,7 @@
 package com.os.device;
 
+import com.os.device.funInterface.DeviceControll;
+
 /**
  * @description: *
  * @author: 司云航

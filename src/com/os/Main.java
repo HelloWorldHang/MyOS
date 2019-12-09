@@ -1,7 +1,7 @@
 package com.os;
 
-import com.os.bean.MyProcess;
-import com.os.bean.PageTab;
+import com.os.memory.MyProcess;
+import com.os.memory.PageTab;
 
 import java.io.BufferedReader;
 import java.io.File;

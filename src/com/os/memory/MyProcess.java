@@ -1,7 +1,6 @@
-package com.os.bean;
+package com.os.memory;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class MyProcess {
