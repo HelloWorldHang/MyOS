@@ -1,5 +1,7 @@
 package com.os.device;
 
+import com.os.device.funInterface.DeviceControll;
+
 /**
  * @description: *
  * @author: 司云航
@@ -44,9 +46,9 @@ public class DeviceControllImpl implements DeviceControll {
     public PhysicalAddr transtAddr(long logicId) {
         PhysicalAddr physicalAddr = new PhysicalAddr();
         int trackId,DiskId,shanquId;
-        trackId = (int) (logicId/Disk.surfaceCount*Disk.physicalShanQuCount);
-        DiskId = (int) ((logicId%Disk.surfaceCount*Disk.physicalShanQuCount)/Disk.physicalShanQuCount);
-        shanquId= (int) ((logicId%Disk.surfaceCount*Disk.physicalShanQuCount)%Disk.physicalShanQuCount);
+        trackId = (int) (logicId/(Disk.surfaceCount*Disk.physicalShanQuCount));
+        DiskId = (int) ((logicId%(Disk.surfaceCount*Disk.physicalShanQuCount))/Disk.physicalShanQuCount);
+        shanquId= (int) ((logicId%(Disk.surfaceCount*Disk.physicalShanQuCount))%Disk.physicalShanQuCount);
         physicalAddr.setTrackId(trackId);
         physicalAddr.setSurfaceId(DiskId);
         physicalAddr.setPhysicalShanQuId(shanquId);
