@@ -6,11 +6,17 @@ package com.os.device;
  * @create: 2019-11-22 20:15
  */
 public class Inode {
+    private static int next_id = 0;
     private long id;
     private int count;
     private int size; // 文件大小
     private int link; // 硬链接数
     private long[] arr; // block的位置
+    {
+        this.id = Inode.next_id +1;
+
+    }
+
 
     public long getId() {
         return id;

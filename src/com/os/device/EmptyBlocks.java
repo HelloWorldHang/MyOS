@@ -8,48 +8,45 @@ import java.util.List;
 
 public class EmptyBlocks {
 
-    final static int LEN = 100;
+    public final static int LEN = 100;
     static int count = 0;  //空闲块数，充当指针
-    static List<Long> emptyBlockList = new ArrayList<Long>();
+    static List<List<Long>> emptyBlockList = new ArrayList<>();
+    //初始化
+    static {
+
+    }
 
     /**
      * 分配
      *
      * @return  返回分配的空闲块的逻辑地址
      */
-    static List<Long> distribution(int n){
-        List<Long> resList = new ArrayList<>(  );
-        while (n>0){
-            if (count < 1) {
-                if (Storage.emptyBlocksStorage.size() == 0) {
-                    System.out.println( "剩余空间已用尽" );
-                    break;
-                }
-
-                emptyBlockList = Storage.emptyBlocksStorage.get( emptyBlockList.get( 0 ).intValue() );
-                count = 99;
+    static int distribution(Inode inode){
+        Storage storage = Storage.getStorage();
+        long[] arr = new long[inode.getSize()];
+        long addrTemp;
+        for (int i=0; i<inode.getSize(); i++){
+            addrTemp = storage.popEBS();
+            if (addrTemp > 0){
+                arr[i] = addrTemp;
+            }else {
+                System.out.println( "磁盘剩余空间不足！" );
+                return -1;
             }
-            System.out.println( "emptyBlockList"+emptyBlockList.toString() );
-            resList.add(emptyBlockList.get(count));
-            count--;
-            n--;
-
         }
-        return resList;
+        inode.setArr( arr );
+        System.out.println("INFO:   为"+inode.getId()+"号Inode分配了"+inode.getSize()+"个物理块");
+        return 0;
     }
-    //回收
-    static int recycle(long LogicAddr){
-        if (count > LEN){
-            Storage.emptyBlocksStorage.add(emptyBlockList );
-            emptyBlockList = new ArrayList<>(  );
-            emptyBlockList.add( (long)Storage.count);
-            Storage.count++;
-            count = 1;
-        }
-        if (emptyBlockList.size() == 0)
-            emptyBlockList.add((long)1);
-        emptyBlockList.add(LogicAddr );
-        count++;
+
+    /**
+     * 回收
+     * @param logicAddr
+     * @return
+     */
+    static int recycle(long logicAddr){
+        Storage storage = Storage.getStorage();
+        storage.pushEBS( logicAddr );
         return 0;
     }
 
