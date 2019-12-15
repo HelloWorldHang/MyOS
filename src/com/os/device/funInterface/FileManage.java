@@ -4,9 +4,24 @@ import com.os.device.FileModel;
 
 public interface FileManage {
     FileModel createFile(String name,String mode);
-    boolean unlink(String name); // 删除文件，要求用户有写权限
+    boolean unlinkFile(String name); // 删除文件，要求用户有写权限
     FileModel open(String name,String mode);
     boolean close(FileModel fd);
+
+    /**
+     * 创建文件夹
+     * @param name
+     * @param mode
+     * @return
+     */
+    boolean createDirectory(String name,String mode);
+
+    /**
+     * 删除文件夹
+     * @param name
+     * @return
+     */
+    boolean unlinkDirectory(String name);
 
     /**
      *
@@ -24,5 +39,8 @@ public interface FileManage {
      * @return 写入多少字符
      */
     int write(FileModel fd, char buf[]);
+
+
+
 
 }

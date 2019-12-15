@@ -10,7 +10,7 @@ public class Inode {
     private int count;
     private int size; // 文件大小
     private int link; // 硬链接数
-    private long[] arr; // block的位置
+    private long[] arr = new long[16]; // block的位置
 
     public long getId() {
         return id;

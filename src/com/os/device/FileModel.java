@@ -13,8 +13,8 @@ public class FileModel {
 
     public Map<String, FileModel> subFile = new HashMap<String, FileModel>();
     private String name; //文件名或目录名
-    private int type; //用来识别是文件还是目录
-    private FileModel father = null;	//该文件或目录的上级目录
+    private int type; //用来识别是文件还是目录,0表示文件 1表示目录
+    private FileModel father = null; //该文件或目录的上级目录
     private long inodeId;
 
     public long getInodeId() {
@@ -25,14 +25,9 @@ public class FileModel {
         this.inodeId = inodeId;
     }
 
-    public FileModel(String name, String type){
+    public FileModel(String name, int type){
         this.name = name;
-        this.type = 2;
-    }
-
-    public FileModel( String name) {
-        this.name = name;
-        this.type = 3;
+        this.type = type;
     }
 
     public String getName() {
