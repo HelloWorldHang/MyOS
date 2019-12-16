@@ -10,12 +10,28 @@ import java.util.Map;
  */
 public class FileModel {
     //FileModel类用来记录文件或目录的相关属性
-
     public Map<String, FileModel> subFile = new HashMap<String, FileModel>();
     private String name; //文件名或目录名
     private int type; //用来识别是文件还是目录,0表示文件 1表示目录
-    private FileModel father = null; //该文件或目录的上级目录
+    private FileModel father; //该文件或目录的上级目录
+    private String content = "";
     private long inodeId;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public long getInodeId() {
         return inodeId;
@@ -50,4 +66,16 @@ public class FileModel {
     public void setFather(FileModel father) {
         this.father = father;
     }
+
+    /*@Override
+    public String toString() {
+        return "FileModel{" +
+                "subFile=" + subFile +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                ", father=" + father +
+                ", content='" + content + '\'' +
+                ", inodeId=" + inodeId +
+                '}';
+    }*/
 }

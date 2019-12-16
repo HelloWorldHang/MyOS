@@ -25,6 +25,8 @@ public class Main {
         // 设置当前文件
         FileModel currentFile;
         currentFile = new FileModel("root", 1);
+        // 设置其inode
+
         String currentPath = currentFile.getName();
         System.out.print("[root@localhost " + currentPath + "]# ");
         while (sc.hasNext()){
@@ -35,6 +37,7 @@ public class Main {
 
             switch (command){
                 case "ls":
+                    // System.out.println(currentFile);
                     commandManage.lsCommand(currentFile);
                     System.out.print("[root@localhost " + currentPath + "]# ");
                     break;
@@ -44,14 +47,33 @@ public class Main {
                     System.out.print("[root@localhost " + currentPath + "]# ");
                     break;
                 case "vim":
-                    System.out.println("vim");
+                    String content = commandManage.vimCommand(currentFile, strArr[1]);
+                    System.out.println(content);
+                    if(sc.nextLine().equals("i")){
+                        String content1 = sc.nextLine();
+                        content += content1;
+                        commandManage.writeCommand(currentFile,strArr[1],content);
+                    }
                     System.out.print("[root@localhost " + currentPath + "]# ");
                     break;
                 case "mkdir":
+                    commandManage.mkdirCommand(strArr[1], currentFile);
                     System.out.print("[root@localhost " + currentPath + "]# ");
                     break;
                 case "cd":
-
+                    currentPath = commandManage.cdCommand(strArr[1], currentFile);
+                    // System.out.println(currentFile);
+                    if (!strArr[1].contains("/")){
+                        currentFile = currentFile.subFile.get(strArr[1]);
+                    }
+                    System.out.print("[root@localhost " + currentPath + "]# ");
+                    break;
+                case "link":
+                    commandManage.link(currentFile, strArr[1], strArr[2]);
+                    System.out.print("[root@localhost " + currentPath + "]# ");
+                    break;
+                case "unlink":
+                    commandManage.unlink(currentFile,strArr[1]);
                     System.out.print("[root@localhost " + currentPath + "]# ");
                     break;
             }

@@ -10,7 +10,16 @@ public class Inode {
     private int count;
     private int size; // 文件大小
     private int link; // 硬链接数
+    private String mode; // 权限
     private long[] arr = new long[16]; // block的位置
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
 
     public long getId() {
         return id;

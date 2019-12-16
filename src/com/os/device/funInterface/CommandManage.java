@@ -19,4 +19,14 @@ public interface CommandManage {
     boolean touchCommand(String fileName, FileModel currentFileModel);
 
     void lsCommand(FileModel currentFileModel);
+
+    boolean mkdirCommand(String fileName, FileModel currentFileModel);
+
+    String vimCommand(FileModel currentFileModel, String name);
+
+    void writeCommand(FileModel currentFileModel, String name, String content);
+
+    void link(FileModel currentFileModel, String name, String path);
+
+    void unlink(FileModel currentFileModel, String name);
 }
